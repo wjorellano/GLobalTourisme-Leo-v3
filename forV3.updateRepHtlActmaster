@@ -1,0 +1,457 @@
+void forV3.updateRepHtlActmaster(int recID)
+{
+	getMaster = Master_Migration_Form[ID == recID];
+	if(getMaster.count() > 0)
+	{
+		try 
+		{
+			if(getMaster.Form_Name == "repas")
+			{
+				getV3Details = global_tourisme_zcopy.forLeo.getMasterDetails(getMaster.Record_ID.tolong(),"repas");
+				//{Description_ES=, Info_TGV_et_Voucher_ES=, HIDDEN_PAYS=, Record_Status=UNLOCKED, Actif=true, Pays=[3378952000008213769], Etat_Province=[3378952000008350804], Info_prestation_PT=, HIDDEN_ETAT=, HIDDEN_CRM_ID_IMPORT=, Added_User=genevive6, Info_prestation_FR=, Liste_de_prix=[3378952000020409871], ID=3378952000020409875, Info_TGV_et_Voucher_PT=, Description_EN=, Ville=null, Added_Time=2024-07-11 12:35:18.0, Minimum_pax_tarif_groupe=0, Modified_User=emmanuelle6, HIDDEN_Nom_Fournisseur=La Buchette, Modified_Time=2024-07-30 10:30:49.0, Info_TGV_et_Voucher_FR=, Type_de_repas=[Dîner, Souper], Notes_generales=, Nom_fournisseur=[2217845000064670001], HIDDEN_VILLE=, Description_PT=, Info_prestation_EN=, Info_TGV_et_Voucher_EN=, Info_prestation_ES=, Description_FR=}
+				if(getV3Details.size() > 0)
+				{
+					v3RecordID = getV3Details.get("ID");
+					findExistingRecordrepas = Repas[V3_Record_ID == v3RecordID];
+					Nom_fournisseur = getV3Details.get("Nom_fournisseur");
+					Nom_fournisseurID = null;
+					if(Nom_fournisseur != null)
+					{
+						getVendors = Vendors[CRM_ID == Nom_fournisseur];
+						Nom_fournisseurID = getVendors.ID;
+					}
+					pays = getV3Details.get("Pays");
+					payID = null;
+					if(pays != null)
+					{
+						getPaysLeo = Pays[V3_Record_ID == pays.tostring()];
+						payID = getPaysLeo.ID;
+					}
+					EtatProvince = getV3Details.get("Etat_Province");
+					Etat_ProvinceID = null;
+					if(EtatProvince != null)
+					{
+						getEtat = Etat_Province[V3_Record_ID == EtatProvince.tostring()];
+						Etat_ProvinceID = getEtat.ID;
+					}
+					villeV3 = getV3Details.get("Ville");
+					villeID = null;
+					if(villeV3 != null)
+					{
+						getVille = Ville[V3_Record_ID == villeV3.tostring()];
+						villeID = getVille.ID;
+					}
+					if(findExistingRecordrepas.count() > 0)
+					{
+						findExistingRecordrepas.Nom_du_fournisseur1=Nom_fournisseurID;
+						findExistingRecordrepas.Pays=payID;
+						findExistingRecordrepas.Actif=getV3Details.get("Actif");
+						findExistingRecordrepas.Type_de_repas=getV3Details.get("Type_de_repas");
+						findExistingRecordrepas.Info_TGV_et_Voucher_FR=getV3Details.get("Info_TGV_et_Voucher_FR");
+						findExistingRecordrepas.Info_TGV_et_Voucher_ES=getV3Details.get("Info_TGV_et_Voucher_ES");
+						findExistingRecordrepas.Info_prestation_FR=getV3Details.get("Info_prestation_FR");
+						findExistingRecordrepas.Info_prestation_ES=getV3Details.get("Info_prestation_ES");
+						findExistingRecordrepas.Description_FR=getV3Details.get("Description_FR");
+						findExistingRecordrepas.Description_ES=getV3Details.get("Description_ES");
+						findExistingRecordrepas.Etat_Province=Etat_ProvinceID;
+						findExistingRecordrepas.Ville=villeID;
+						findExistingRecordrepas.Info_TGV_et_Voucher_EN=getV3Details.get("Info_TGV_et_Voucher_EN");
+						findExistingRecordrepas.Info_TGV_et_Voucher_PT=getV3Details.get("Info_TGV_et_Voucher_PT");
+						findExistingRecordrepas.Info_prestation_EN=getV3Details.get("Info_prestation_EN");
+						findExistingRecordrepas.Info_prestation_PT=getV3Details.get("Info_prestation_PT");
+						findExistingRecordrepas.Description_EN=getV3Details.get("Description_EN");
+						findExistingRecordrepas.Description_PT=getV3Details.get("Description_PT");
+						findExistingRecordrepas.Notes_g_n_rales=getV3Details.get("Notes_generales");
+						findExistingRecordrepas.HIDDEN_Nom_Fournisseur=getV3Details.get("HIDDEN_Nom_Fournisseur");
+						findExistingRecordrepas.HIDDEN_CRM_ID_IMPORT=getV3Details.get("HIDDEN_CRM_ID_IMPORT");
+						findExistingRecordrepas.HIDDEN_PAYS=getV3Details.get("HIDDEN_PAYS");
+						findExistingRecordrepas.HIDDEN_ETAT=getV3Details.get("HIDDEN_ETAT");
+						findExistingRecordrepas.HIDDEN_VILLE=getV3Details.get("HIDDEN_VILLE");
+					}
+					else
+					{
+						repID = insert into Repas
+						[
+							Added_User=zoho.loginuser
+							Nom_du_fournisseur1=Nom_fournisseurID
+							Pays=payID
+							Actif=getV3Details.get("Actif")
+							Type_de_repas=getV3Details.get("Type_de_repas")
+							Info_TGV_et_Voucher_FR=getV3Details.get("Info_TGV_et_Voucher_FR")
+							Info_TGV_et_Voucher_ES=getV3Details.get("Info_TGV_et_Voucher_ES")
+							Info_prestation_FR=getV3Details.get("Info_prestation_FR")
+							Info_prestation_ES=getV3Details.get("Info_prestation_ES")
+							Description_FR=getV3Details.get("Description_FR")
+							Description_ES=getV3Details.get("Description_ES")
+							Etat_Province=Etat_ProvinceID
+							Ville=villeID
+							Info_TGV_et_Voucher_EN=getV3Details.get("Info_TGV_et_Voucher_EN")
+							Info_TGV_et_Voucher_PT=getV3Details.get("Info_TGV_et_Voucher_PT")
+							Info_prestation_EN=getV3Details.get("Info_prestation_EN")
+							Info_prestation_PT=getV3Details.get("Info_prestation_PT")
+							Description_EN=getV3Details.get("Description_EN")
+							Description_PT=getV3Details.get("Description_PT")
+							Notes_g_n_rales=getV3Details.get("Notes_generales")
+							HIDDEN_Nom_Fournisseur=getV3Details.get("HIDDEN_Nom_Fournisseur")
+							HIDDEN_CRM_ID_IMPORT=getV3Details.get("HIDDEN_CRM_ID_IMPORT")
+							HIDDEN_PAYS=getV3Details.get("HIDDEN_PAYS")
+							HIDDEN_ETAT=getV3Details.get("HIDDEN_ETAT")
+							HIDDEN_VILLE=getV3Details.get("HIDDEN_VILLE")
+							V3_Record_ID=v3RecordID
+						];
+					}
+				}
+			}
+			else if(getMaster.Form_Name == "hotel")
+			{
+				getV3Details = global_tourisme_zcopy.forLeo.getMasterDetails(getMaster.Record_ID.tolong(),"hotel");
+				//{Type_dejeuners=null, Info_TGV_et_Voucher_ES=, HIDDEN_PAYS=, Record_Status=UNLOCKED, Manutention_disponible=false, Liste_de_prix_bagages=null, Actif=true, Pays=[3378952000008213769], Modified_User_IP_Address=142.112.40.37, Etat_Province=[3378952000008350804], Info_prestation_PT=, HIDDEN_ETAT=, HIDDEN_CRM_ID_IMPORT=, Dejeuner_Autre=, Added_User=zoho_maude15, Info_prestation_FR=, Toujours_inclus=false, Liste_de_prix=[3378952000020497391], ID=3378952000020497395, Taxe=[3378952000008311708], Info_TGV_et_Voucher_PT=, Added_Time=2024-07-17 15:49:10.0, Fournisseur_CRM=[2217845000064837042], Ville=[3378952000008346257], Modified_User=zoho_maude15, Modified_Time=2024-07-17 15:49:11.0, inimum_chambre_tarif_groupe=0, Info_TGV_et_Voucher_FR=, Notes_generales=, Age_max_enfants_sans_charge=null, Nom=Gite au Vieux Pommier, Liste_de_prix_dejeuners=null, Added_User_IP_Address=142.112.40.37, HIDDEN_VILLE=, Bagages_obligatoire=false, Info_prestation_EN=, Info_TGV_et_Voucher_EN=, Info_prestation_ES=}
+				if(getV3Details.size() > 0)
+				{
+					v3RecordID = getV3Details.get("ID");
+					findExistingRecordHtl = Hotel[V3_Record_ID == v3RecordID];
+					Fournisseur_CRM = getV3Details.get("Fournisseur_CRM");
+					FournisseurLookup = null;
+					if(Fournisseur_CRM != null)
+					{
+						getVendor = Vendors[CRM_ID == Fournisseur_CRM.tostring()];
+						FournisseurLookup = getVendor.ID;
+					}
+					nom = getV3Details.get("Nom");
+					pays = getV3Details.get("Pays");
+					payID = null;
+					if(pays != null)
+					{
+						getPaysLeo = Pays[V3_Record_ID == pays.tostring()];
+						payID = getPaysLeo.ID;
+					}
+					EtatProvince = getV3Details.get("Etat_Province");
+					Etat_ProvinceID = null;
+					if(EtatProvince != null)
+					{
+						getEtat = Etat_Province[V3_Record_ID == EtatProvince.tostring()];
+						Etat_ProvinceID = getEtat.ID;
+					}
+					villeV3 = getV3Details.get("Ville");
+					villeID = null;
+					if(villeV3 != null)
+					{
+						getVille = Ville[V3_Record_ID == villeV3.tostring()];
+						villeID = getVille.ID;
+					}
+					taxeV3 = getV3Details.get("Taxe");
+					taxeID = null;
+					if(taxeV3 != null)
+					{
+						getTaxe = Taxe[V3_Record_ID == taxeV3.tostring()];
+						taxeID = getTaxe.ID;
+					}
+					Type_dejeunersID = list();
+					Type_dejeunersV3 = getV3Details.get("Type_dejeuners");
+					if(Type_dejeunersV3 != null)
+					{
+						for each  ty in Type_dejeunersV3
+						{
+							getDeju = Dejeuners[V3_Record_ID == ty.tostring()];
+							Type_dejeunersID.add(getDeju.ID);
+						}
+					}
+					if(findExistingRecordHtl.count() > 0)
+					{
+						findExistingRecordHtl.Fournisseur_CRM1=FournisseurLookup;
+						findExistingRecordHtl.Nom=nom;
+						findExistingRecordHtl.Pays=payID;
+						findExistingRecordHtl.Etat_Province=Etat_ProvinceID;
+						findExistingRecordHtl.Ville=villeID;
+						findExistingRecordHtl.Taxe=taxeID;
+						findExistingRecordHtl.Minimum_chambre_tarif_groupe=getV3Details.get("inimum_chambre_tarif_groupe");
+						findExistingRecordHtl.Age_max_enfants_sans_charge=getV3Details.get("Age_max_enfants_sans_charge");
+						findExistingRecordHtl.Info_TGV_et_Voucher_FR=getV3Details.get("Info_TGV_et_Voucher_FR");
+						findExistingRecordHtl.Info_TGV_et_Voucher_ES=getV3Details.get("Info_TGV_et_Voucher_ES");
+						findExistingRecordHtl.Info_prestation_FR=getV3Details.get("Info_prestation_FR");
+						findExistingRecordHtl.Info_prestation_ES=getV3Details.get("Info_prestation_ES");
+						findExistingRecordHtl.Type_de_dejeuner=Type_dejeunersID;
+						findExistingRecordHtl.Dejeuner_Autre=getV3Details.get("Dejeuner_Autre");
+						findExistingRecordHtl.Bagages_obligatoires_groupes=getV3Details.get("Bagages_obligatoire");
+						findExistingRecordHtl.Manutention_des_bagages_disponible=getV3Details.get("Manutention_disponible");
+						findExistingRecordHtl.Bagages_toujours_inclus=getV3Details.get("Toujours_inclus");
+						findExistingRecordHtl.Actif=getV3Details.get("Actif");
+						findExistingRecordHtl.Notes_generales=getV3Details.get("Notes_generales");
+						findExistingRecordHtl.Info_TGV_et_Voucher_EN=getV3Details.get("Info_TGV_et_Voucher_EN");
+						findExistingRecordHtl.Info_TGV_et_Voucher_PT=getV3Details.get("Info_TGV_et_Voucher_PT");
+						findExistingRecordHtl.Info_prestation_EN=getV3Details.get("Info_prestation_EN");
+						findExistingRecordHtl.Info_prestation_PT=getV3Details.get("Info_prestation_PT");
+					}
+					else
+					{
+						htlID = insert into Hotel
+						[
+							Added_User=zoho.loginuser
+							Fournisseur_CRM1=FournisseurLookup
+							Nom=nom
+							Pays=payID
+							Etat_Province=Etat_ProvinceID
+							Ville=villeID
+							Taxe=taxeID
+							Minimum_chambre_tarif_groupe=getV3Details.get("inimum_chambre_tarif_groupe")
+							Age_max_enfants_sans_charge=getV3Details.get("Age_max_enfants_sans_charge")
+							Info_TGV_et_Voucher_FR=getV3Details.get("Info_TGV_et_Voucher_FR")
+							Info_TGV_et_Voucher_ES=getV3Details.get("Info_TGV_et_Voucher_ES")
+							Info_prestation_FR=getV3Details.get("Info_prestation_FR")
+							Info_prestation_ES=getV3Details.get("Info_prestation_ES")
+							Type_de_dejeuner=Type_dejeunersID
+							Dejeuner_Autre=getV3Details.get("Dejeuner_Autre")
+							Bagages_obligatoires_groupes=getV3Details.get("Bagages_obligatoire")
+							Manutention_des_bagages_disponible=getV3Details.get("Manutention_disponible")
+							Bagages_toujours_inclus=getV3Details.get("Toujours_inclus")
+							Actif=getV3Details.get("Actif")
+							Notes_generales=getV3Details.get("Notes_generales")
+							Info_TGV_et_Voucher_EN=getV3Details.get("Info_TGV_et_Voucher_EN")
+							Info_TGV_et_Voucher_PT=getV3Details.get("Info_TGV_et_Voucher_PT")
+							Info_prestation_EN=getV3Details.get("Info_prestation_EN")
+							Info_prestation_PT=getV3Details.get("Info_prestation_PT")
+							V3_Record_ID=v3RecordID
+						];
+					}
+				}
+			}
+			else if(getMaster.Form_Name == "activity")
+			{
+				getV3Details = global_tourisme_zcopy.forLeo.getMasterDetails(getMaster.Record_ID.tolong(),"activity");
+				//{Description_ES=, D=, Info_activite_ES=, HIDDEN_PAYS=, Record_Status=UNLOCKED, Actif=true, Pays=[3378952000008213769], Modified_User_IP_Address=142.112.40.37, Etat_Province=[3378952000008350805], Info_prestation_PT=, HIDDEN_ETAT=, Info_activite_PT=, HIDDEN_CRM_ID_IMPORT=, Added_User=marguin_globaltourisme, Info_prestation_FR=, Liste_de_prix=[3378952000020702135, 3378952000020702139, 3378952000020702143, 3378952000020702147, 3378952000020702151, 3378952000020702155], ID=3378952000020702159, Info_activite_FR=, Description_EN=, Added_Time=2024-07-30 11:08:36.0, Ville=[3378952000008346003], Minimum_pax_tarif_groupe=0, Modified_User=marguin_globaltourisme, HIDDEN_Nom_Fournisseur=, Modified_Time=2024-07-30 11:12:55.0, Notes_generales=, Nom_fournisseur=[2217845000065281001], Nom_activite=Adventure City, Added_User_IP_Address=142.112.40.37, HIDDEN_VILLE=, Info_prestation_EN=, Info_activite_EN=, Info_prestation_ES=, Description_FR=}
+				if(getV3Details.size() > 0)
+				{
+					v3RecordID = getV3Details.get("ID");
+					findExistingRecordAct = Activities[V3_Record_ID == v3RecordID];
+					Fournisseur_CRM = getV3Details.get("Fournisseur_CRM");
+					FournisseurLookup = null;
+					if(Fournisseur_CRM != null)
+					{
+						getVendor = Vendors[CRM_ID == Fournisseur_CRM.tostring()];
+						FournisseurLookup = getVendor.ID;
+					}
+					pays = getV3Details.get("Pays");
+					payID = null;
+					if(pays != null)
+					{
+						getPaysLeo = Pays[V3_Record_ID == pays.tostring()];
+						payID = getPaysLeo.ID;
+					}
+					EtatProvince = getV3Details.get("Etat_Province");
+					Etat_ProvinceID = null;
+					if(EtatProvince != null)
+					{
+						getEtat = Etat_Province[V3_Record_ID == EtatProvince.tostring()];
+						Etat_ProvinceID = getEtat.ID;
+					}
+					villeV3 = getV3Details.get("Ville");
+					villeID = null;
+					if(villeV3 != null)
+					{
+						getVille = Ville[V3_Record_ID == villeV3.tostring()];
+						villeID = getVille.ID;
+					}
+					if(findExistingRecordAct.count() > 0)
+					{
+						findExistingRecordAct.Nom_du_fournisseur1=FournisseurLookup;
+						findExistingRecordAct.Nom_activite=getV3Details.get("Nom_activite");
+						findExistingRecordAct.Pays=payID;
+						findExistingRecordAct.Actif=getV3Details.get("Actif");
+						findExistingRecordAct.Description_FR=getV3Details.get("Description_FR");
+						findExistingRecordAct.Description_ES=getV3Details.get("Description_ES");
+						findExistingRecordAct.Info_TGV_et_Voucher_FR=getV3Details.get("Info_activite_FR");
+						findExistingRecordAct.Info_TGV_et_Voucher_ES=getV3Details.get("Info_activite_ES");
+						findExistingRecordAct.Info_prestation_FR=getV3Details.get("Info_prestation_FR");
+						findExistingRecordAct.Info_prestation_ES=getV3Details.get("Info_prestation_ES");
+						findExistingRecordAct.Minimum_pax_tarif_groupe=getV3Details.get("Minimum_pax_tarif_groupe");
+						findExistingRecordAct.tat_Province=Etat_ProvinceID;
+						findExistingRecordAct.Ville=villeID;
+						findExistingRecordAct.Description_EN=getV3Details.get("Description_EN");
+						findExistingRecordAct.Description_PT=getV3Details.get("D");
+						findExistingRecordAct.Info_TGV_et_Voucher_EN=getV3Details.get("Info_activite_EN");
+						findExistingRecordAct.Info_TGV_et_Voucher_PT=getV3Details.get("Info_activite_PT");
+						findExistingRecordAct.Info_prestation_EN=getV3Details.get("Info_prestation_EN");
+						findExistingRecordAct.Info_prestation_PT=getV3Details.get("Info_prestation_PT");
+						findExistingRecordAct.Notes_generales=getV3Details.get("Notes_generales");
+						findExistingRecordAct.HIDDEN_Nom_Fournisseur=getV3Details.get("HIDDEN_Nom_Fournisseur");
+						findExistingRecordAct.HIDDEN_CRM_ID_IMPORT=getV3Details.get("HIDDEN_CRM_ID_IMPORT");
+						findExistingRecordAct.HIDDEN_ETAT=getV3Details.get("HIDDEN_ETAT");
+						findExistingRecordAct.HIDDEN_PAYS=getV3Details.get("HIDDEN_PAYS");
+						findExistingRecordAct.HIDDEN_VILLE=getV3Details.get("HIDDEN_VILLE");
+					}
+					else
+					{
+						actID = insert into Activities
+						[
+							Added_User=zoho.loginuser
+							Nom_du_fournisseur1=FournisseurLookup
+							Nom_activite=getV3Details.get("Nom_activite")
+							Pays=payID
+							Actif=getV3Details.get("Actif")
+							Description_FR=getV3Details.get("Description_FR")
+							Description_ES=getV3Details.get("Description_ES")
+							Info_TGV_et_Voucher_FR=getV3Details.get("Info_activite_FR")
+							Info_TGV_et_Voucher_ES=getV3Details.get("Info_activite_ES")
+							Info_prestation_FR=getV3Details.get("Info_prestation_FR")
+							Info_prestation_ES=getV3Details.get("Info_prestation_ES")
+							Minimum_pax_tarif_groupe=getV3Details.get("Minimum_pax_tarif_groupe")
+							tat_Province=Etat_ProvinceID
+							Ville=villeID
+							Description_EN=getV3Details.get("Description_EN")
+							Description_PT=getV3Details.get("D")
+							Info_TGV_et_Voucher_EN=getV3Details.get("Info_activite_EN")
+							Info_TGV_et_Voucher_PT=getV3Details.get("Info_activite_PT")
+							Info_prestation_EN=getV3Details.get("Info_prestation_EN")
+							Info_prestation_PT=getV3Details.get("Info_prestation_PT")
+							Notes_generales=getV3Details.get("Notes_generales")
+							HIDDEN_Nom_Fournisseur=getV3Details.get("HIDDEN_Nom_Fournisseur")
+							HIDDEN_CRM_ID_IMPORT=getV3Details.get("HIDDEN_CRM_ID_IMPORT")
+							HIDDEN_ETAT=getV3Details.get("HIDDEN_ETAT")
+							HIDDEN_PAYS=getV3Details.get("HIDDEN_PAYS")
+							HIDDEN_VILLE=getV3Details.get("HIDDEN_VILLE")
+							V3_Record_ID=v3RecordID
+						];
+					}
+				}
+			}
+			else if(getMaster.Form_Name == "ville")
+			{
+				//{Modified_User=athibeault_globaltourisme, Modified_Time=2024-05-17 15:51:00.0, Record_Status=UNLOCKED, Actif=true, Nom=Metairie, Pays=[3378952000008213770], Modified_User_IP_Address=142.112.40.37, Etat_Province=[3378952000008350820], Added_User_IP_Address=142.112.40.37, Taxes=null, Added_User=athibeault_globaltourisme, ID=3378952000019783369, Added_Time=2024-05-17 15:51:00.0}
+				getV3Details = global_tourisme_zcopy.forLeo.getMasterDetails(getMaster.Record_ID.tolong(),"ville");
+				EtatProvince = getV3Details.get("Etat_Province");
+				Etat_ProvinceID = null;
+				if(EtatProvince != null)
+				{
+					getEtat = Etat_Province[V3_Record_ID == EtatProvince.tostring()];
+					Etat_ProvinceID = getEtat.ID;
+				}
+				findExistingRecordville = Ville[V3_Record_ID == v3RecordID];
+				pays = getV3Details.get("Pays");
+				payID = null;
+				if(pays != null)
+				{
+					getPaysLeo = Pays[V3_Record_ID == pays.tostring()];
+					payID = getPaysLeo.ID;
+				}
+				taxesID = list();
+				taxesV3 = getV3Details.get("Taxes");
+				if(taxesV3 != null)
+				{
+					for each  ty in taxesV3
+					{
+						getTax = Taxe[V3_Record_ID == ty.tostring()];
+						taxesID.add(getTax.ID);
+					}
+				}
+				if(findExistingRecordville.count() > 0)
+				{
+					findExistingRecordville.Nom=getV3Details.get("Nom");
+					findExistingRecordville.Pays=payID;
+					findExistingRecordville.Etat_Province=Etat_ProvinceID;
+					findExistingRecordville.Actif=getV3Details.get("Actif");
+					findExistingRecordville.Taxes=taxesID;
+				}
+				else
+				{
+					villIDIns = insert into Ville
+					[
+						Added_User=zoho.loginuser
+						Nom=getV3Details.get("Nom")
+						Pays=payID
+						Etat_Province=Etat_ProvinceID
+						Actif=getV3Details.get("Actif")
+						Taxes=taxesID
+						V3_Record_ID=v3RecordID
+					];
+				}
+			}
+			if(getMaster.Form_Name == "transport")
+			{
+				getV3Details = global_tourisme_zcopy.forLeo.getMasterDetails(getMaster.Record_ID.tolong(),"transport");
+				//{Description_ES=, Info_TGV_et_Voucher_ES=, HIDDEN_PAYS=, Record_Status=UNLOCKED, Actif=true, Pays=[3378952000008213769], Etat_Province=[3378952000008350804], Info_prestation_PT=, HIDDEN_ETAT=, HIDDEN_CRM_ID_IMPORT=, Added_User=genevive6, Info_prestation_FR=, Liste_de_prix=[3378952000020409871], ID=3378952000020409875, Info_TGV_et_Voucher_PT=, Description_EN=, Ville=null, Added_Time=2024-07-11 12:35:18.0, Minimum_pax_tarif_groupe=0, Modified_User=emmanuelle6, HIDDEN_Nom_Fournisseur=La Buchette, Modified_Time=2024-07-30 10:30:49.0, Info_TGV_et_Voucher_FR=, Type_de_repas=[Dîner, Souper], Notes_generales=, Nom_fournisseur=[2217845000064670001], HIDDEN_VILLE=, Description_PT=, Info_prestation_EN=, Info_TGV_et_Voucher_EN=, Info_prestation_ES=, Description_FR=}
+				if(getV3Details.size() > 0)
+				{
+					v3RecordID = getV3Details.get("ID");
+					findExistingRecordTransport = Transport[V3_Record_ID == v3RecordID];
+					Nom_fournisseur = getV3Details.get("Fournisseur_CRM");
+					Nom_fournisseurID = null;
+					if(Nom_fournisseur != null)
+					{
+						getVendors = Vendors[CRM_ID == Nom_fournisseur];
+						Nom_fournisseurID = getVendors.ID;
+					}
+					pays = getV3Details.get("Pays");
+					payID = null;
+					if(pays != null)
+					{
+						getPaysLeo = Pays[V3_Record_ID == pays.tostring()];
+						payID = getPaysLeo.ID;
+					}
+					EtatProvince = getV3Details.get("Etat_Province");
+					Etat_ProvinceID = null;
+					if(EtatProvince != null)
+					{
+						getEtat = Etat_Province[V3_Record_ID == EtatProvince.tostring()];
+						Etat_ProvinceID = getEtat.ID;
+					}
+					villeV3 = getV3Details.get("Ville");
+					villeID = null;
+					if(villeV3 != null)
+					{
+						getVille = Ville[V3_Record_ID == villeV3.tostring()];
+						villeID = getVille.ID;
+					}
+					if(findExistingRecordTransport.count() > 0)
+					{
+						findExistingRecordTransport.Fournisseur_CRM1=Nom_fournisseurID;
+						findExistingRecordTransport.Nom=getV3Details.get("Nom");
+						findExistingRecordTransport.Pays=payID;
+						findExistingRecordTransport.Actif=getV3Details.get("Actif");
+						findExistingRecordTransport.Type1=getV3Details.get("Type1");
+						findExistingRecordTransport.Info_TGV_et_Voucher_FR=getV3Details.get("Info_TGV_et_Voucher_FR");
+						findExistingRecordTransport.Info_TGV_et_Voucher_ES=getV3Details.get("Info_TGV_et_Voucher_ES");
+						findExistingRecordTransport.Etat_Province=Etat_ProvinceID;
+						findExistingRecordTransport.Ville=villeID;
+						findExistingRecordTransport.Info_TGV_et_Voucher_EN=getV3Details.get("Info_TGV_et_Voucher_EN");
+						findExistingRecordTransport.Info_TGV_et_Voucher_PT=getV3Details.get("Info_TGV_et_Voucher_PT");
+						findExistingRecordTransport.Notes_g_n_rales=getV3Details.get("Notes_generales");
+						findExistingRecordTransport.HIDDEN_CRM_ID_IMPORT=getV3Details.get("HIDDEN_CRM_ID_IMPORT");
+						findExistingRecordTransport.HIDDEN_PAYS=getV3Details.get("HIDDEN_PAYS");
+						findExistingRecordTransport.HIDDEN_ETAT=getV3Details.get("HIDDEN_ETAT");
+						findExistingRecordTransport.HIDDEN_VILLE=getV3Details.get("HIDDEN_VILLE");
+					}
+					else
+					{
+						repID = insert into Transport
+						[
+							Added_User=zoho.loginuser
+							Fournisseur_CRM1=Nom_fournisseurID
+							Nom=getV3Details.get("Nom")
+							Pays=payID
+							Actif=getV3Details.get("Actif")
+							Type1=getV3Details.get("Type1")
+							Info_TGV_et_Voucher_FR=getV3Details.get("Info_TGV_et_Voucher_FR")
+							Info_TGV_et_Voucher_ES=getV3Details.get("Info_TGV_et_Voucher_ES")
+							Etat_Province=Etat_ProvinceID
+							Ville=villeID
+							Info_TGV_et_Voucher_EN=getV3Details.get("Info_TGV_et_Voucher_EN")
+							Info_TGV_et_Voucher_PT=getV3Details.get("Info_TGV_et_Voucher_PT")
+							Notes_g_n_rales=getV3Details.get("Notes_generales")
+							HIDDEN_CRM_ID_IMPORT=getV3Details.get("HIDDEN_CRM_ID_IMPORT")
+							HIDDEN_PAYS=getV3Details.get("HIDDEN_PAYS")
+							HIDDEN_ETAT=getV3Details.get("HIDDEN_ETAT")
+							HIDDEN_VILLE=getV3Details.get("HIDDEN_VILLE")
+							V3_Record_ID=v3RecordID
+						];
+					}
+				}
+			}
+			getMaster.Status="processed";
+		}
+		catch (e)
+		{
+			getMaster.Error_Message=e;
+			info e;
+		}
+	}
+}
